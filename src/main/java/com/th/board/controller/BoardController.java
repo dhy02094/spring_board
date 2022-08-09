@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.th.board.dto.BoardDto;
 import com.th.board.service.BoardService;
@@ -72,6 +73,14 @@ public class BoardController {
     public String delete(@PathVariable("no") Long id) {
         boardService.deletePost(id);
         return "redirect:/";
+    }
+
+    @GetMapping("/board/search")
+    public String search(@RequestParam(value = "keyword") String keyword, Model model){
+        List<BoardDto> boardDtoList = boardService.searchPosts(keyword);
+        model.addAttribute("boardList", boardDtoList);
+
+        return "board/list.html";
     }
 
 
